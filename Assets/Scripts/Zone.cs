@@ -1,19 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Zone : MonoBehaviour
 {
-	[SerializeField] bool gravity;
-	[SerializeField] bool positive;
-	[SerializeField] bool negative;
+	public bool gravity;
+	public bool positive;
+	public bool negative;
 
-	[SerializeField] float Strength;
-	[SerializeField] float Range;
+	public float strength;
+	public float range;
 
 	CircleCollider2D collider;
 
+	[SerializeField] List<Particle> particles = new List<Particle>();
+
 	private void OnDrawGizmos()
 	{
-		Gizmos.DrawWireSphere(transform.position, Range);
+		if (collider == null)
+			collider = GetComponent<CircleCollider2D>();
+		collider.radius = range;
+
+		Gizmos.DrawWireSphere(transform.position, range);
 	}
 
 	private void Start()
@@ -21,39 +28,63 @@ public class Zone : MonoBehaviour
 		collider = GetComponent<CircleCollider2D>();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
-		collider.radius = Range;
+		for (int i = 0; i < particles.Count; i ++)
+		{
+			var p = particles[i];
+			if (p == null)
+			{
+				particles.RemoveAt(i);
+				i--;
+				continue;
+			}
+
+			p.velocity = Affect(p.velocity, p.transform.position, p.properties, Time.fixedDeltaTime);
+		}
 	}
 
-	private void OnTriggerStay2D(Collider2D collision)
+	public Vector2 Affect(Vector2 velocity, Vector2 point, ParticleProperties properties, float deltatime)
 	{
-		var p = collision.GetComponent<Particle>();
-		if (p == null) return;
-
-		Vector2 dir = transform.position - collision.transform.position;
+		Vector2 dir = (Vector2)transform.position - point;
 		var dist = dir.magnitude;
-		dir = dir.normalized * Time.deltaTime;
-		
+		dir = dir.normalized * deltatime;
+
 		if (gravity)
 		{
-			p.velocity += Mathf.Lerp(Strength, 0, dist / Range) * dir;
+			velocity += Mathf.Lerp(strength, 0, dist / range) * dir;
 		}
 
 		if (positive)
 		{
-			if (p.positive)
-				p.velocity -= Mathf.Lerp(Strength, 0, dist / Range) * dir;
-			if (p.negative)
-				p.velocity += Mathf.Lerp(Strength, 0, dist / Range) * dir;
+			if (properties.positive)
+				velocity -= Mathf.Lerp(strength, 0, dist / range) * dir;
+			if (properties.negative)
+				velocity += Mathf.Lerp(strength, 0, dist / range) * dir;
 		}
 
 		if (negative)
 		{
-			if (p.negative)
-				p.velocity -= Mathf.Lerp(Strength, 0, dist / Range) * dir;
-			if (p.positive)
-				p.velocity += Mathf.Lerp(Strength, 0, dist / Range) * dir;
+			if (properties.negative)
+				velocity -= Mathf.Lerp(strength, 0, dist / range) * dir;
+			if (properties.positive)
+				velocity += Mathf.Lerp(strength, 0, dist / range) * dir;
 		}
+
+		return velocity;
+	}
+
+	private void OnTriggerStay2D(Collider2D collision)
+	{
+		var particle = collision.GetComponent<Particle>();
+		if (particle != null && !particles.Contains(particle))
+			particles.Add(particle);
+	}
+
+	private void OnTriggerExit2D(Collider2D collision)
+	{
+		var particle = collision.GetComponent<Particle>();
+		if (particle != null)
+			particles.Remove(particle);
 	}
 }

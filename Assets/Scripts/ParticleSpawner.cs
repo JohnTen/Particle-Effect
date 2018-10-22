@@ -5,14 +5,12 @@ using UnityEngine;
 public class ParticleSpawner : MonoBehaviour
 {
 	public float freq;
-	public bool positive;
-	public bool negative;
 	public Vector2 velocity;
 	public Particle particlePrefab;
+	public ParticleProperties properties;
 
 	float timer;
-
-	// Update is called once per frame
+	
 	void Update ()
 	{
 		timer -= Time.deltaTime;
@@ -21,8 +19,8 @@ public class ParticleSpawner : MonoBehaviour
 
 		var p = Instantiate(particlePrefab.gameObject).GetComponent<Particle>();
 		p.transform.position = transform.position;
-		p.positive = positive;
-		p.negative = negative;
+		p.properties.positive = properties.positive;
+		p.properties.negative = properties.negative;
 		p.velocity = velocity;
 	}
 }
