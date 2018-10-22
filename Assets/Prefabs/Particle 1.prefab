@@ -389,6 +389,7 @@ MonoBehaviour:
   color: 1
   velocity: {x: 10, y: 0}
   speed: 0
+  decayTime: 3
   zones: []
 --- !u!114 &114934535799300866
 MonoBehaviour:
