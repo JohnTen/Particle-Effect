@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ColorZone : BaseZone
@@ -18,7 +19,7 @@ public class ColorZone : BaseZone
 			if (this.particle.color != particle.color)
 				return;
 
-			Destroy(particle.gameObject);
+			StartCoroutine(DelayDestroy(particle.gameObject));
 		}
 
 		if (particle.size >= this.particle.size)
@@ -26,7 +27,14 @@ public class ColorZone : BaseZone
 			if (this.particle.color != particle.color)
 				particle.ChangeColor(this.particle.color);
 
-			Destroy(this.particle.gameObject);
+			StartCoroutine(DelayDestroy(this.particle.gameObject));
 		}
+	}
+
+	IEnumerator DelayDestroy(GameObject go)
+	{
+		yield return null;
+		print("Color");
+		Destroy(go);
 	}
 }

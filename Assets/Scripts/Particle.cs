@@ -38,6 +38,9 @@ public class Particle : MonoBehaviour
 
 	private void Awake()
 	{
+		material = GetComponent<Renderer>().material;
+		ChangeColor(color);
+
 		GetComponentsInChildren(zones);
 		foreach (var z in zones)
 		{
@@ -51,9 +54,6 @@ public class Particle : MonoBehaviour
 			if (fz.negative)
 				type = ParticlePropertyType.Negative;
 		}
-
-		material = GetComponent<Renderer>().material;
-		ChangeColor(color);
 	}
 
 	private void FixedUpdate()
@@ -176,6 +176,7 @@ public class Particle : MonoBehaviour
 			{
 				if (zone.gravity)
 				{
+					Destroy(zone.gameObject);
 					zones.RemoveAt(i);
 					return;
 				}
@@ -184,6 +185,7 @@ public class Particle : MonoBehaviour
 			{
 				if (zone.negative)
 				{
+					Destroy(zone.gameObject);
 					zones.RemoveAt(i);
 					this.type = ParticlePropertyType.None;
 					return;
@@ -191,14 +193,16 @@ public class Particle : MonoBehaviour
 
 				if (zone.positive)
 				{
+					Destroy(zone.gameObject);
 					zones.RemoveAt(i);
-					break;
+					return;
 				}
 			}
 			else if (type == ParticlePropertyType.Positive)
 			{
 				if (zone.positive)
 				{
+					Destroy(zone.gameObject);
 					zones.RemoveAt(i);
 					this.type = ParticlePropertyType.None;
 					return;
@@ -206,8 +210,9 @@ public class Particle : MonoBehaviour
 
 				if (zone.negative)
 				{
+					Destroy(zone.gameObject);
 					zones.RemoveAt(i);
-					break;
+					return;
 				}
 			}
 		}
