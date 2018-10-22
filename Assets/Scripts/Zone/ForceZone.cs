@@ -1,27 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Zone : MonoBehaviour
+public class ForceZone : BaseZone
 {
 	public bool gravity;
 	public bool positive;
 	public bool negative;
 
-	public float strength;
-	public float range;
-
-	CircleCollider2D collider;
-
-	[SerializeField] List<Particle> particles = new List<Particle>();
-
-	private void OnDrawGizmos()
-	{
-		if (collider == null)
-			collider = GetComponent<CircleCollider2D>();
-		collider.radius = range;
-
-		Gizmos.DrawWireSphere(transform.position, range);
-	}
+	List<Collider2D> manipulatingParticles = new List<Collider2D>();
+	List<Particle> particles = new List<Particle>();
 
 	private void Start()
 	{
@@ -36,15 +23,18 @@ public class Zone : MonoBehaviour
 			if (p == null)
 			{
 				particles.RemoveAt(i);
+				manipulatingParticles.RemoveAt(i);
 				i--;
 				continue;
 			}
 
-			p.velocity = Affect(p.velocity, p.transform.position, p.properties, Time.fixedDeltaTime);
+			if (p.size >= particle.size) continue;
+
+			p.velocity = Affect(p.velocity, p.transform.position, p.type, Time.fixedDeltaTime);
 		}
 	}
 
-	public Vector2 Affect(Vector2 velocity, Vector2 point, ParticleProperties properties, float deltatime)
+	public override Vector2 Affect(Vector2 velocity, Vector2 point, ParticlePropertyType type, float deltatime)
 	{
 		Vector2 dir = (Vector2)transform.position - point;
 		var dist = dir.magnitude;
@@ -57,17 +47,17 @@ public class Zone : MonoBehaviour
 
 		if (positive)
 		{
-			if (properties.positive)
+			if (type == ParticlePropertyType.Positive)
 				velocity -= Mathf.Lerp(strength, 0, dist / range) * dir;
-			if (properties.negative)
+			if (type == ParticlePropertyType.Negative)
 				velocity += Mathf.Lerp(strength, 0, dist / range) * dir;
 		}
 
 		if (negative)
 		{
-			if (properties.negative)
+			if (type == ParticlePropertyType.Negative)
 				velocity -= Mathf.Lerp(strength, 0, dist / range) * dir;
-			if (properties.positive)
+			if (type == ParticlePropertyType.Positive)
 				velocity += Mathf.Lerp(strength, 0, dist / range) * dir;
 		}
 
@@ -76,15 +66,29 @@ public class Zone : MonoBehaviour
 
 	private void OnTriggerStay2D(Collider2D collision)
 	{
+		foreach (var c in manipulatingParticles)
+			if (c == collision) return;
+
 		var particle = collision.GetComponent<Particle>();
 		if (particle != null && !particles.Contains(particle))
+		{
 			particles.Add(particle);
+			manipulatingParticles.Add(collision);
+		}
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
+		var same = false;
+		foreach (var c in manipulatingParticles)
+			if (c == collision) same = true;
+		if (!same) return;
+
 		var particle = collision.GetComponent<Particle>();
 		if (particle != null)
+		{
 			particles.Remove(particle);
+			manipulatingParticles.Remove(collision);
+		}
 	}
 }

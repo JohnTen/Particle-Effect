@@ -7,7 +7,7 @@ public class ParticleSpawner : MonoBehaviour
 	public float freq;
 	public Vector2 velocity;
 	public Particle particlePrefab;
-	public ParticleProperties properties;
+	public ParticlePropertyType type;
 
 	float timer;
 	
@@ -19,8 +19,7 @@ public class ParticleSpawner : MonoBehaviour
 
 		var p = Instantiate(particlePrefab.gameObject).GetComponent<Particle>();
 		p.transform.position = transform.position;
-		p.properties.positive = properties.positive;
-		p.properties.negative = properties.negative;
+		p.type = type;
 		p.velocity = velocity;
 	}
 }

@@ -11,6 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c364784af3823143bf6271e9d2a1e55, type: 3}
   m_Name: PrefabLibrary
   m_EditorClassIdentifier: 
-  GravityZone: {fileID: 0}
-  PositiveZone: {fileID: 0}
-  NegativeZone: {fileID: 0}
+  GravityZone: {fileID: 114834834104042550, guid: 729664065ff9c5d44b8d3e8a6a893400,
+    type: 2}
+  PositiveZone: {fileID: 114440886677075152, guid: 95808edf88b0c284fb30ec7fd77e33d6,
+    type: 2}
+  NegativeZone: {fileID: 114783071350171878, guid: d204c9a9ab80e1c43b1b70a4f619e80c,
+    type: 2}
+  ColorZone: {fileID: 114588655342279568, guid: 4c6866f1c7dccbc41a643156caa34a01,
+    type: 2}

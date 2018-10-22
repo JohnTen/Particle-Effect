@@ -8,7 +8,7 @@ public class AssistantRay : MonoBehaviour
 	[SerializeField] int maxSimulationSteps = 3000;
 
 	int currentSteps = 0;
-	List<Zone> affectingZones = new List<Zone>();
+	List<BaseZone> affectingZones = new List<BaseZone>();
 	RaycastHit2D[] hits = new RaycastHit2D[10];
 
 	private void OnDrawGizmos()
@@ -44,14 +44,14 @@ public class AssistantRay : MonoBehaviour
 			var hitsNumber = Physics2D.RaycastNonAlloc(origPos, origVel, hits, origVel.magnitude * Time.fixedDeltaTime);
 			for (int i = 0; i < hitsNumber; i++)
 			{
-				var zone = hits[i].collider.GetComponent<Zone>();
+				var zone = hits[i].collider.GetComponent<BaseZone>();
 				if (zone != null && !affectingZones.Contains(zone))
 					affectingZones.Add(zone);
 			}
 		}
 	}
 
-	private bool IsInZone(Vector3 point, Zone zone)
+	private bool IsInZone(Vector3 point, BaseZone zone)
 	{
 		var dir = zone.transform.position - point;
 		return dir.sqrMagnitude < (zone.range * zone.range);
@@ -61,7 +61,7 @@ public class AssistantRay : MonoBehaviour
 	{
 		foreach (var z in affectingZones)
 		{
-			velocity = z.Affect(velocity, position, spawner.properties, Time.fixedDeltaTime);
+			velocity = z.Affect(velocity, position, spawner.type, Time.fixedDeltaTime);
 		}
 
 		position += velocity * Time.fixedDeltaTime;

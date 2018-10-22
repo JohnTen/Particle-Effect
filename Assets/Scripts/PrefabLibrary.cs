@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class PrefabLibrary : ScriptableObject
 {
-	public Zone GravityZone;
-	public Zone PositiveZone;
-	public Zone NegativeZone;
+	public ForceZone GravityZone;
+	public ForceZone PositiveZone;
+	public ForceZone NegativeZone;
+	public ColorZone ColorZone;
 
 	static PrefabLibrary _instance;
 	public static PrefabLibrary Instance

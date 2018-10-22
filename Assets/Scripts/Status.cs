@@ -10,10 +10,3 @@ public enum Status
 	Positive = 2,
 	Negative = 4,
 }
-
-public enum ParticleColor
-{
-	Red,
-	Green,
-	Blue,
-}
