@@ -711,6 +711,7 @@ GameObject:
   - component: {fileID: 1489448091}
   - component: {fileID: 1489448094}
   - component: {fileID: 1489448090}
+  - component: {fileID: 1489448095}
   m_Layer: 18
   m_Name: Attribute
   m_TagString: Untagged
@@ -791,13 +792,28 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1489448089}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84f2e86b49b194932aebdd446f175bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   go: {fileID: 0}
   mesh: {fileID: 0}
+--- !u!114 &1489448095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1489448089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f445c9ad5314c80b384f29163704e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDragAttributes:
+    serializedVersion: 2
+    m_Bits: 0
+  Drop: 0
 --- !u!1001 &1502864006
 Prefab:
   m_ObjectHideFlags: 0

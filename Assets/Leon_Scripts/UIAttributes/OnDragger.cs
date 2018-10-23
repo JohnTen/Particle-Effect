@@ -22,7 +22,7 @@ public class OnDragger : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndDrag
     {
         if (image.sprite == null)
         {
-            Debug.LogError("Current component of 'Image' have none 'Sprite'.");
+
             return;
         }
 
