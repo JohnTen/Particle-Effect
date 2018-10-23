@@ -90,4 +90,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 0}
   strength: 0
-  range: 1
+  range: 5

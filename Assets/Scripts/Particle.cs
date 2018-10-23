@@ -149,18 +149,6 @@ public class Particle : MonoBehaviour
 
 				decayTimer = decayTime;
 				break;
-
-			case ParticleColor.Blue:
-				color = ParticleColor.Blue;
-				break;
-
-			case ParticleColor.Green:
-				color = ParticleColor.Green;
-				break;
-
-			case ParticleColor.Red:
-				color = ParticleColor.Red;
-				break;
 		}
 
 		this.color = color;
@@ -337,6 +325,7 @@ public class Particle : MonoBehaviour
 			else if (color == ParticleColor.Blue)
 				color = ParticleColor.Green;
 			yield return null;
+			print(color);
 
 			ChangeColor(color);
 		}

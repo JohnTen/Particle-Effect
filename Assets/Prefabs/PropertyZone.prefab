@@ -105,5 +105,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 0}
   strength: 0
-  range: 0
+  range: 5
   type: 0

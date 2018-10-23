@@ -10,9 +10,16 @@ public class ParticleSpawner : MonoBehaviour
 	public ParticlePropertyType type;
 
 	float timer;
+
+	bool spawn;
 	
 	void Update ()
 	{
+		if (Input.GetKeyDown(KeyCode.Space))
+			spawn = true;
+
+		if (!spawn) return;
+
 		timer -= Time.deltaTime;
 		if (timer > 0) return;
 		timer = 1 / freq;
