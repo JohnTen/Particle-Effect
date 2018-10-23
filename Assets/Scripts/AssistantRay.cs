@@ -13,6 +13,8 @@ public class AssistantRay : MonoBehaviour
 	List<BaseZone> affectingZones = new List<BaseZone>();
 	RaycastHit2D[] hits = new RaycastHit2D[10];
 
+	public bool Fire { get; set; }
+
 	private void OnDrawGizmos()
 	{
 		Physics2D.queriesHitTriggers = true;
@@ -92,7 +94,8 @@ public class AssistantRay : MonoBehaviour
 
 			if (origVel != velocity)
 				nextPointIndex++;
-			linePoints[nextPointIndex] = position;
+			if (nextPointIndex < linePoints.Length)
+				linePoints[nextPointIndex] = position;
 
 			for (int i = 0; i < affectingZones.Count; i++)
 			{
@@ -112,7 +115,8 @@ public class AssistantRay : MonoBehaviour
 			}
 		}
 		nextPointIndex++;
-		linePoints[nextPointIndex] = position;
+		if (nextPointIndex < linePoints.Length)
+			linePoints[nextPointIndex] = position;
 		return nextPointIndex;
 	}
 
@@ -124,6 +128,9 @@ public class AssistantRay : MonoBehaviour
 
 	private void Update()
 	{
+		if (Input.GetKey(KeyCode.Space))
+			Fire = true;
+		if (Fire) return;
 		var length = CalculatePoints();
 		lineRenderer.positionCount = length;
 		lineRenderer.SetPositions(linePoints);
