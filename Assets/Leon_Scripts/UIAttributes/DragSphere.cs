@@ -86,7 +86,7 @@ public class DragSphere : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
        
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << canDragSphere | 1 << canDragAttributes))
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             isClickCube = true;
             //得到射线碰撞到的物体

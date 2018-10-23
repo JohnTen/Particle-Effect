@@ -304,6 +304,7 @@ public class Particle : MonoBehaviour
 		zone.particle = this;
 		zone.transform.SetParent(transform);
 		zone.transform.localPosition = Vector3.zero;
+		zones.Add(zone);
 	}
 
 	IEnumerator Decay()
