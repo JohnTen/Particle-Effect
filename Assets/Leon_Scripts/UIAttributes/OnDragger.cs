@@ -7,7 +7,7 @@ public class OnDragger : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndDrag
 {
 
     private Image image;
-    private GameObject go;
+    public GameObject go;
     /// <summary>
     /// 每个图片代表不同的Mesh
     /// </summary>
