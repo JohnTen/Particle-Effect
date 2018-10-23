@@ -41,10 +41,27 @@ public class Particle : MonoBehaviour
 
 	private void Awake()
 	{
-		material = GetComponent<Renderer>().material;
+		ResetProperties();
+
+		if (size == ParticleSize.Medium)
+			StartCoroutine(Decay());
+	}
+
+	private void FixedUpdate()
+	{
+		speed = velocity.magnitude;
+		transform.Translate(velocity * Time.deltaTime);
+	}
+
+	public void ResetProperties()
+	{
+		if (material == null)
+			material = GetComponent<Renderer>().sharedMaterial;
 		ChangeColor(color);
 
-		GetComponentsInChildren(zones);
+		if (zones.Count <= 0)
+			GetComponentsInChildren(zones);
+
 		foreach (var z in zones)
 		{
 			z.particle = this;
@@ -57,15 +74,6 @@ public class Particle : MonoBehaviour
 			if (fz.negative)
 				type = ParticlePropertyType.Negative;
 		}
-
-		if (size == ParticleSize.Medium)
-			StartCoroutine(Decay());
-	}
-
-	private void FixedUpdate()
-	{
-		speed = velocity.magnitude;
-		transform.Translate(velocity * Time.deltaTime);
 	}
 
 	public void Affect(Particle particle, float deltaTime)
